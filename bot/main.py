@@ -37,7 +37,6 @@ async def on_ready():
                 await changeNick(member)
             else:
                 print('Not modifying ' + member.display_name + ', as we didn\'t have permission to last time.')
-        time.sleep(5)
 
 
 def generateusername():
