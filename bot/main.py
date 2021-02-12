@@ -1,7 +1,7 @@
 import discord
 import time
 import random
-import asyncio
+import os
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -10,6 +10,8 @@ intents.members = True
 
 client = discord.Client(intents=intents)
 usernames = []
+
+TOKEN = os.getenv("DISCORD_TOKEN")
 
 # Add users with errors to blacklist so that we don't keep making API calls to change these users.
 memberBlacklist = []
@@ -71,5 +73,4 @@ async def changeNick(member):
 
     print("    Changed username to " + newname)
 
-
-client.run('ODA5NzkzMzczMDg2OTQxMjE0.YCaQ2Q.Ljnlq26bnaotug8Zuwnx-whzdjE')
+client.run(TOKEN)
