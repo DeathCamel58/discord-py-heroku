@@ -1,1 +1,3 @@
 discord.py
+
+nltk~=3.5
