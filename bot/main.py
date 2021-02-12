@@ -2,6 +2,7 @@ import discord
 import time
 import random
 import os
+import requests
 
 intents = discord.Intents.default()
 intents.typing = False
@@ -16,6 +17,10 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 # Add users with errors to blacklist so that we don't keep making API calls to change these users.
 memberBlacklist = []
 
+
+r = requests.get('https://asf.randomcpu.com/usernames.txt', allow_redirects=True)
+with open('usernames.txt', 'wb') as f:
+    f.write(r.content)
 file = open('usernames.txt', 'r')
 for line in file:
     usernames.append(line[:-1])
