@@ -77,14 +77,11 @@ class MyCog(commands.Cog):
     @commands.command()
     async def delword(self, ctx, word):
         """Removes a root word from the list"""
-        if word is None:
-            ctx.send("Please specify a word as a parameter!")
-        else:
-            self.usernames.remove(word)
-            await ctx.send("Removed " + word + " from root usernames!")
+        self.usernames.remove(word)
+        await ctx.send("Removed " + word + " from root usernames!")
     @delword.error
     async def delword_error(self, ctx, error):
-        await ctx.send("Please specify a word or URL as a parameter!")
+        await ctx.send("Please specify a word as a parameter!")
 
     @commands.command()
     async def start(self, ctx):
