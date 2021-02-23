@@ -199,11 +199,20 @@ class MyCog(commands.Cog):
                     newUsername += str(random.randrange(0, 9))
         return newUsername
 
+    async def disconnectRandomFromEveryChannel(self):
+        voiceChannels = self.bot.guilds[0].voice_channels
+
+        for voiceChannel in voiceChannels:
+            if len(voiceChannel.members) > 0:
+                await voiceChannel.members[random.randint(0, len(voiceChannel.members) - 1)].move_to(None)
+
+
     # Main Loop
     @tasks.loop(seconds=15)
     async def looper(self):
         if self.running:
             await self.changeNamesRandom()
+            await self.disconnectRandomFromEveryChannel()
 
     @looper.before_loop
     async def before_looper(self):
