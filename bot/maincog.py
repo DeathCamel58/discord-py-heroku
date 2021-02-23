@@ -103,6 +103,18 @@ class MyCog(commands.Cog):
 
         await ctx.send("Here's the full list of root usernames!", file=file)
 
+    @commands.command()
+    async def mentioneveryone(self, ctx):
+        """Mentions everyone in server"""
+
+        users = self.bot.get_all_members()
+        message = ""
+        for user in users:
+            message += user.mention + " "
+
+        channel = await self.bot.fetch_channel(617596739368517633)
+        await channel.send(message)
+
     # Custom functions
     async def changeNamesRandom(self):
         """
