@@ -113,7 +113,7 @@ class MyCog(commands.Cog):
         else:
             self.kickRandomPeople = True
 
-        await ctx.send("Kicking random people " + self.kickRandomPeople)
+        await ctx.send("Kicking random people " + str(self.kickRandomPeople))
 
     #@commands.command()
     #async def mentioneveryone(self, ctx):
