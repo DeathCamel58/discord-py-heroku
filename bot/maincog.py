@@ -21,6 +21,7 @@ class MyCog(commands.Cog):
         file = open('usernames.txt', 'r')
         for line in file:
             self.usernames.append(line[:-1])
+        self.kickRandomPeople = False
 
     def cog_unload(self):
         self.looper.cancel()
@@ -102,6 +103,17 @@ class MyCog(commands.Cog):
         file = discord.File("usernames.txt")
 
         await ctx.send("Here's the full list of root usernames!", file=file)
+
+    @commands.command()
+    async def toggleKickPeople(self, ctx):
+        """Toggles whether or not to kick random people from a voice call sporadically"""
+
+        if self.kickRandomPeople:
+            self.kickRandomPeople = False
+        else:
+            self.kickRandomPeople = True
+
+        await ctx.send("Kicking random people " + self.kickRandomPeople)
 
     #@commands.command()
     #async def mentioneveryone(self, ctx):
@@ -212,6 +224,7 @@ class MyCog(commands.Cog):
     async def looper(self):
         if self.running:
             await self.changeNamesRandom()
+        if self.kickRandomPeople:
             await self.disconnectRandomFromEveryChannel()
 
     @looper.before_loop
