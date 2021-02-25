@@ -9,11 +9,13 @@ import asyncio
 # client = discord.Client(intents=intents)
 usernames = []
 
+
 def command_prefix(bot, message):
     if message.guild is None:
         return ''
     else:
         return '$'
+
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 

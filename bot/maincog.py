@@ -72,6 +72,7 @@ class MyCog(commands.Cog):
         else:
             self.usernames.append(wordOrURL)
         await ctx.send("Root names added!")
+
     @addword.error
     async def addword_error(self, ctx, error):
         await ctx.send("Please specify a word or URL as a parameter!")
@@ -81,6 +82,7 @@ class MyCog(commands.Cog):
         """Removes a root word from the list"""
         self.usernames.remove(word)
         await ctx.send("Removed " + word + " from root usernames!")
+
     @delword.error
     async def delword_error(self, ctx, error):
         await ctx.send("Please specify a word as a parameter!")
@@ -156,7 +158,6 @@ class MyCog(commands.Cog):
                     self.roleBlacklist.append(member.top_role.name)
                     print(self.roleBlacklist)
 
-
     async def changeNick(self, member):
         """
         Changes given member's nickname to a random one
@@ -202,7 +203,6 @@ class MyCog(commands.Cog):
         for voiceChannel in voiceChannels:
             if len(voiceChannel.members) > 0:
                 await voiceChannel.members[random.randint(0, len(voiceChannel.members) - 1)].move_to(None)
-
 
     # Main Loop
     @tasks.loop(seconds=15)
