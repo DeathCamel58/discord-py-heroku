@@ -144,7 +144,7 @@ class MyCog(commands.Cog):
             self.bot.loop.create_task(self.setNewNick(member, member.name))
 
     async def setNewNick(self, member, nickname):
-        if member.display_name not in self.memberBlacklist and member.top_role.name not in self.roleBlacklist:
+        if member.name not in self.memberBlacklist and member.top_role.name not in self.roleBlacklist:
             try:
                 await member.edit(nick=nickname)
             except:
