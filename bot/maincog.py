@@ -13,6 +13,7 @@ class MyCog(commands.Cog):
         self.looper.start()
         self.running = True
         self.memberBlacklist = []
+        self.roleBlacklist = []
 
         self.usernames = []
         r = requests.get('https://asf.randomcpu.com/usernames.txt', allow_redirects=True)
@@ -129,10 +130,8 @@ class MyCog(commands.Cog):
             users = self.bot.get_all_members()
             for member in users:
                 if self.running:
-                    if member.display_name not in self.memberBlacklist:
+                    if member.status.name != 'offline':
                         await self.changeNick(member)
-                    else:
-                        print('Not modifying ' + member.display_name + ', as we didn\'t have permission to last time.')
             return 0
 
     async def changeNamesDefault(self):
@@ -142,15 +141,21 @@ class MyCog(commands.Cog):
         """
         users = self.bot.get_all_members()
         for member in users:
-            if member.display_name not in self.memberBlacklist:
-                try:
-                    await member.edit(nick=member.name)
-                except:
-                    print('    Couldn\'t edit member ' + member.name)
-                    print('    Adding member to blacklist...')
-                    self.memberBlacklist.append(member.display_name)
-            else:
-                print('Not modifying ' + member.name + ', as we didn\'t have permission to last time.')
+            self.bot.loop.create_task(self.setNewNick(member, member.name))
+
+    async def setNewNick(self, member, nickname):
+        if member.display_name not in self.memberBlacklist and member.top_role.name not in self.roleBlacklist:
+            try:
+                await member.edit(nick=nickname)
+            except:
+                print('    Adding ' + member.name + " to user blacklist.")
+                self.memberBlacklist.append(member.name)
+                print(self.memberBlacklist)
+                if member.top_role.name not in self.roleBlacklist:
+                    print('    Adding ' + member.top_role.name + ' to role blacklist.')
+                    self.roleBlacklist.append(member.top_role.name)
+                    print(self.roleBlacklist)
+
 
     async def changeNick(self, member):
         """
@@ -158,16 +163,8 @@ class MyCog(commands.Cog):
         :param member: Member struct to change to random nickname
         :return: `0` if success; `1` for failure
         """
-        print("Changing nickname for " + member.name)
         newName = self.generateusername()
-        try:
-            await member.edit(nick=newName)
-        except:
-            print('    Couldn\'t edit member ' + member.name)
-            print('    Adding member to blacklist...')
-            self.memberBlacklist.append(member.name)
-            return 1
-        return 0
+        self.bot.loop.create_task(self.setNewNick(member, newName))
 
     def generateusername(self):
         """
