@@ -13,7 +13,6 @@ class MyCog(commands.Cog):
         self.looper.start()
         self.running = True
         self.memberBlacklist = []
-        self.roleBlacklist = []
 
         self.usernames = []
         r = requests.get('https://asf.randomcpu.com/usernames.txt', allow_redirects=True)
@@ -146,17 +145,13 @@ class MyCog(commands.Cog):
             self.bot.loop.create_task(self.setNewNick(member, member.name))
 
     async def setNewNick(self, member, nickname):
-        if member.name not in self.memberBlacklist and member.top_role.name not in self.roleBlacklist:
+        if member.name not in self.memberBlacklist:
             try:
                 await member.edit(nick=nickname)
             except:
                 print('    Adding ' + member.name + " to user blacklist.")
                 self.memberBlacklist.append(member.name)
                 print(self.memberBlacklist)
-                if member.top_role.name not in self.roleBlacklist:
-                    print('    Adding ' + member.top_role.name + ' to role blacklist.')
-                    self.roleBlacklist.append(member.top_role.name)
-                    print(self.roleBlacklist)
 
     async def changeNick(self, member):
         """
