@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 import random
 import requests
 import re
+import traceback
 
 
 # Main looper
@@ -169,27 +170,36 @@ class MyCog(commands.Cog):
         """
         newUsername = ""
         if self.running:
-            usernameSeed = self.usernames[random.randint(0, len(self.usernames))]
+            try:
+                usernameSeed = self.usernames[random.randint(0, len(self.usernames))]
 
-            # Determine where numbers occur
-            # 0 = None; 1 = Before; 2 = After; 3 = Both
-            randomInt = random.randint(0, 3)
-            if randomInt == 0:
-                newUsername += usernameSeed
-            if randomInt == 1:
-                for i in range(0, random.randrange(0, 6)):
-                    newUsername += str(random.randrange(0, 9))
-                newUsername += usernameSeed
-            if randomInt == 2:
-                newUsername += usernameSeed
-                for i in range(0, random.randrange(0, 6)):
-                    newUsername += str(random.randrange(0, 9))
-            if randomInt == 3:
-                for i in range(0, random.randrange(0, 6)):
-                    newUsername += str(random.randrange(0, 9))
-                newUsername += usernameSeed
-                for i in range(0, random.randrange(0, 6)):
-                    newUsername += str(random.randrange(0, 9))
+                # Determine where numbers occur
+                # 0 = None; 1 = Before; 2 = After; 3 = Both
+                randomInt = random.randint(0, 3)
+                if randomInt == 0:
+                    newUsername += usernameSeed
+                if randomInt == 1:
+                    for i in range(0, random.randrange(0, 6)):
+                        newUsername += str(random.randrange(0, 9))
+                    newUsername += usernameSeed
+                if randomInt == 2:
+                    newUsername += usernameSeed
+                    for i in range(0, random.randrange(0, 6)):
+                        newUsername += str(random.randrange(0, 9))
+                if randomInt == 3:
+                    for i in range(0, random.randrange(0, 6)):
+                        newUsername += str(random.randrange(0, 9))
+                    newUsername += usernameSeed
+                    for i in range(0, random.randrange(0, 6)):
+                        newUsername += str(random.randrange(0, 9))
+            except IndexError as e:
+                print('!!! ERROR GENERATING USERNAME !!!')
+                print('    Error follows:')
+                print(e)
+                print(traceback.print_exc())
+
+                newUsername = '420Ligma69'
+
         return newUsername
 
     async def disconnectRandomFromEveryChannel(self):
