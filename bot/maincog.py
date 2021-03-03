@@ -16,7 +16,7 @@ class MyCog(commands.Cog):
         self.memberBlacklist = []
 
         self.usernames = []
-        r = requests.get('https://asf.randomcpu.com/usernames.txt', allow_redirects=True)
+        r = requests.get('https://github.com/dwyl/english-words/raw/master/words_alpha.txt', allow_redirects=True)
         with open('usernames.txt', 'wb') as f:
             f.write(r.content)
         file = open('usernames.txt', 'r')
