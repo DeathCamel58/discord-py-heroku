@@ -171,7 +171,7 @@ class MyCog(commands.Cog):
         newUsername = ""
         if self.running:
             try:
-                usernameSeed = self.usernames[random.randint(0, len(self.usernames))]
+                usernameSeed = self.usernames[random.randint(0, len(self.usernames)-1)]
 
                 # Determine where numbers occur
                 # 0 = None; 1 = Before; 2 = After; 3 = Both
@@ -197,6 +197,7 @@ class MyCog(commands.Cog):
                 print('    Error follows:')
                 print(e)
                 print(traceback.print_exc())
+                print(f'    List of usernames is {len(self.usernames)} long')
 
                 newUsername = '420Ligma69'
 
